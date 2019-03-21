@@ -2,28 +2,32 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 class Animal:
-    def __init__(self, number, fear, hunger, curiosity):
+    def __init__(self, number, fear=(0,1), hunger=(0,1), curiosity=(0,1)):
+        """
+        Args = number to create, upper and lower bounds for attributes
+        """
         self.number = number
-        self.fear = fear
-        self.hunger = hunger
-        self.curiosity = curiosity
+        self.fear = np.random.normal(fear[0], fear[1], number)
+        self.hunger = np.random.normal(hunger[0], hunger[1], number)
+        self.curiosity = np.random.normal(curiosity[0], curiosity[1], number)
 
-p1 = Animal(number=10, hunger= np.random.normal(0,1, 10), fear=1, curiosity=1)
+    def step(self):
+        self.number *= 2
+        self.fear += -1
+        self.hunger += np.random.uniform(-1,1)
+        self.curiosity += np.random.uniform(-1,1)
 
-print(p1.number)
+p1 = Animal(number=100)
 
-plt.hist(p1.hunger)
-plt.show()
+filtered_dir = list(filter(lambda x : not x.startswith("__"), dir(p1)))
 
+print(p1.__dict__)
+
+#
+# for elt in range(len(filtered_dir)):
+#     print(f"{p1}".format(elt))
+#
 # import pandas as pd
-#
-# genome is created as blank slate {"hunger":0, "curiosity":0, "fear":0}
-# genome = [1,1,1]
-#
-# genomeList = [genome, list(map((lambda x : x * 2), genome))]
-#
-# print(genomeList)
-#
 #
 # def sim_step(genomeList, repRate):
 #     newList = []
